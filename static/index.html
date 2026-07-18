@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GHG Completeness Check | OneCarbon by One17</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <img src="assets/one17-mark-colour.svg" alt="One17" />
+    <div>
+      <div class="brand-name">OneCarbon</div>
+      <div class="brand-sub">by One17 &middot; GHG completeness check</div>
+    </div>
+  </div>
+
+  <div class="steps" id="steps">
+    <div class="step-box active" id="step-dot-1">1</div>
+    <div class="step-box" id="step-dot-2">2</div>
+    <div class="step-box" id="step-dot-3">3</div>
+  </div>
+
+  <!-- STEP 1: sector -->
+  <section id="screen-sector">
+    <p class="kicker">Step 1</p>
+    <h1>Which sector fits your business?</h1>
+    <p class="lede">Pick the closest match &mdash; we'll show you the emission sources most relevant to it.</p>
+    <div class="sector-grid" id="sector-grid"></div>
+  </section>
+
+  <!-- STEP 2: screening -->
+  <section id="screen-check" style="display:none;">
+    <p class="kicker">Step 2</p>
+    <h1 id="check-title">Mark what applies</h1>
+    <p class="lede">For each item: is it present at your business, absent, or are you not sure?</p>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <p class="progress-label" id="progress-label">0 of 0 answered</p>
+    <div id="group-container"></div>
+    <div class="nav-row">
+      <button class="text-btn" id="change-sector-btn">&larr; Change sector</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: summary -->
+  <section id="screen-summary" style="display:none;">
+    <p class="kicker">Step 3</p>
+    <h1>Your screening summary</h1>
+    <p class="lede" id="summary-lede"></p>
+
+    <div class="summary-grid">
+      <div class="summary-tile"><p class="tlabel">Scope 1</p><p class="tval" id="tile-s1">0</p></div>
+      <div class="summary-tile"><p class="tlabel">Scope 2</p><p class="tval" id="tile-s2">0</p></div>
+      <div class="summary-tile"><p class="tlabel">Scope 3</p><p class="tval" id="tile-s3">0</p></div>
+      <div class="summary-tile warn"><p class="tlabel">Unsure</p><p class="tval" id="tile-unsure">0</p></div>
+    </div>
+
+    <div class="gap-note" id="gap-note"></div>
+    <p class="oos-note" id="oos-note"></p>
+
+    <div class="email-block">
+      <h2>Get the full report</h2>
+      <p>Your unsure items, what wasn't covered here, and next steps &mdash; sent to your inbox.</p>
+      <form class="email-form" id="email-form">
+        <input type="email" id="email-input" placeholder="you@company.com" required />
+        <button type="submit">Email me the report</button>
+      </form>
+      <p class="sent-msg" id="sent-msg">Sent &mdash; check your inbox shortly.</p>
+    </div>
+
+    <div class="nav-row">
+      <button class="text-btn" id="restart-btn">&larr; Start over</button>
+    </div>
+  </section>
+
+  <p class="footer-note">One17 Pte Ltd &middot; Sustainability &amp; Carbon Advisory &middot; Singapore &amp; APAC</p>
+
+</div>
+
+<script src="sources.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
