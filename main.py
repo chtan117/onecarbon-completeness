@@ -8,6 +8,13 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+
+class NoCacheStaticFiles(StaticFiles):
+    def file_response(self, *args, **kwargs):
+        response = super().file_response(*args, **kwargs)
+        response.headers["Cache-Control"] = "no-cache"
+        return response
+
 from dotenv import load_dotenv
 
 from email_report import send_report_email
@@ -81,4 +88,4 @@ async def submit(request: Request):
     return {"status": "ok", "email_sent": email_sent}
 
 
-app.mount("/", StaticFiles(directory=BASE_DIR / "static", html=True), name="static")
+app.mount("/", NoCacheStaticFiles(directory=BASE_DIR / "static", html=True), name="static")
