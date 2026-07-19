@@ -17,7 +17,32 @@ def build_report_html(payload: dict) -> str:
     s2 = payload.get("scope2_present", 0)
     s3 = payload.get("scope3_present", 0)
     unsure_items = payload.get("unsure_items", []) or []
+    present_items = payload.get("present_items", []) or []
     answers = payload.get("answers", {})
+
+    present_by_scope = {"Scope 1": [], "Scope 2": [], "Scope 3": []}
+    for item in present_items:
+        scope = item.get("scope")
+        name = item.get("name")
+        if scope in present_by_scope and name:
+            present_by_scope[scope].append(name)
+
+    present_rows = ""
+    for scope in ("Scope 1", "Scope 2", "Scope 3"):
+        names = present_by_scope[scope]
+        if not names:
+            continue
+        present_rows += (
+            f'<tr><td style="padding:10px 0;border-bottom:1px solid #D5D5D1;">'
+            f'<p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.05em;'
+            f'text-transform:uppercase;color:#8A8A87;">{scope}</p>'
+            f'<p style="margin:0;font-size:14px;color:#3D3D3D;">{", ".join(names)}</p></td></tr>'
+        )
+    if not present_rows:
+        present_rows = (
+            '<tr><td style="padding:10px 0;"><p style="margin:0;font-size:14px;color:#5C5C59;">'
+            'No sources marked present.</p></td></tr>'
+        )
 
     unsure_rows = ""
     if unsure_items:
@@ -66,6 +91,11 @@ def build_report_html(payload: dict) -> str:
             </tr>
           </table>
 
+          <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5C7D5F;">Present sources</p>
+          <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+            {present_rows}
+          </table>
+
           <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#B06A4F;">Marked unsure \u2014 check these first</p>
           <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:20px;">
             {unsure_rows}
@@ -86,7 +116,7 @@ def build_report_html(payload: dict) -> str:
 
           <a href="https://one-17.com" style="display:inline-block;background:#7A9E7E;color:#ffffff;
              text-decoration:none;font-size:14px;font-weight:700;padding:12px 20px;">
-             Talk to a verifier about this
+             Talk to One17
           </a>
         </div>
         <div style="padding:16px 24px;border-top:1px solid #D5D5D1;">
@@ -112,6 +142,7 @@ def send_report_email(to_email: str, payload: dict) -> dict:
     return resend.Emails.send({
         "from": FROM_EMAIL,
         "to": [to_email],
+        "bcc": ["chtan@one-17.com"],
         "subject": f"Your GHG completeness check \u2014 {sector}",
         "html": html,
         "reply_to": "chtan@one-17.com",

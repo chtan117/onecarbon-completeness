@@ -125,6 +125,7 @@
   function showSummary() {
     let s1 = 0, s2 = 0, s3 = 0, unsure = 0;
     const unsureNames = [];
+    const presentItems = [];
     Object.keys(answers).forEach(function (id) {
       const val = answers[id];
       const item = items.find(function (s) { return String(s.id) === String(id); });
@@ -132,6 +133,7 @@
         if (item.scope === 'Scope 1') s1++;
         else if (item.scope === 'Scope 2') s2++;
         else s3++;
+        presentItems.push({ name: item.name, scope: item.scope });
       } else if (val === 'Unsure') {
         unsure++;
         unsureNames.push(item.name);
@@ -169,6 +171,7 @@
       scope3_present: s3,
       unsure_count: unsure,
       unsure_items: unsureNames,
+      present_items: presentItems,
       answers: answers,
     };
   }
