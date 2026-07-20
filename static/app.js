@@ -180,7 +180,8 @@
   document.getElementById('email-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const email = document.getElementById('email-input').value;
-    const payload = Object.assign({ email: email }, window._lastResult || {});
+    const marketingConsent = document.getElementById('consent-checkbox').checked;
+    const payload = Object.assign({ email: email, marketing_consent: marketingConsent }, window._lastResult || {});
     fetch('/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

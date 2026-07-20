@@ -42,10 +42,15 @@ def get_db():
             unsure_count INTEGER,
             unsure_items TEXT,
             raw_answers TEXT,
-            created_at TEXT
+            created_at TEXT,
+            marketing_consent INTEGER DEFAULT 0
         )
         """
     )
+    try:
+        conn.execute("ALTER TABLE leads ADD COLUMN marketing_consent INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass  # column already exists on databases created before this migration
     return conn
 
 
@@ -60,8 +65,8 @@ async def submit(request: Request):
     conn.execute(
         """
         INSERT INTO leads (email, sector, scope1_present, scope2_present, scope3_present,
-                            unsure_count, unsure_items, raw_answers, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            unsure_count, unsure_items, raw_answers, created_at, marketing_consent)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             email,
@@ -73,6 +78,7 @@ async def submit(request: Request):
             json.dumps(body.get("unsure_items", []), ensure_ascii=False),
             json.dumps(body.get("answers", {}), ensure_ascii=False),
             datetime.now(timezone.utc).isoformat(),
+            1 if body.get("marketing_consent") else 0,
         ),
     )
     conn.commit()

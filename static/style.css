@@ -196,6 +196,20 @@ p.lede { color: var(--body-gray); font-size: 14px; margin: 0 0 28px; }
 }
 .email-block h2 { color: #fff; }
 .email-block p { color: #C9C9C6; font-size: 13px; margin: 0 0 16px; }
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 4px 0 16px;
+  font-size: 12px;
+  color: #C9C9C6;
+  cursor: pointer;
+}
+.consent-row input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--sage);
+  cursor: pointer;
+}
 .email-form { display: flex; gap: 8px; flex-wrap: wrap; }
 .email-form input {
   flex: 1;
