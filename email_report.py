@@ -45,15 +45,18 @@ def build_report_html(payload: dict) -> str:
         )
 
     unsure_rows = ""
+    unsure_footnote = ""
     if unsure_items:
         for name in unsure_items:
             unsure_rows += (
-                f'<tr><td style="padding:10px 0;border-bottom:1px solid #D5D5D1;">'
-                f'<p style="margin:0 0 4px;font-size:14px;color:#3D3D3D;font-weight:700;">{name}</p>'
-                f'<p style="margin:0;font-size:13px;color:#5C5C59;">'
-                f'Worth confirming with the relevant team \u2014 sources marked unsure are the most common '
-                f'place a completeness gap hides.</p></td></tr>'
+                f'<tr><td style="padding:8px 0;border-bottom:1px solid #D5D5D1;">'
+                f'<p style="margin:0;font-size:14px;color:#3D3D3D;font-weight:700;">{name}</p></td></tr>'
             )
+        unsure_footnote = (
+            '<p style="margin:8px 0 0;font-size:13px;color:#5C5C59;">'
+            'Worth confirming these with the relevant team \u2014 sources marked unsure are the most common '
+            'place a completeness gap hides.</p>'
+        )
     else:
         unsure_rows = (
             '<tr><td style="padding:10px 0;"><p style="margin:0;font-size:14px;color:#5C5C59;">'
@@ -97,11 +100,12 @@ def build_report_html(payload: dict) -> str:
           </table>
 
           <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#B06A4F;">Marked unsure \u2014 check these first</p>
-          <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+          <table role="presentation" style="width:100%;border-collapse:collapse;">
             {unsure_rows}
           </table>
+          {unsure_footnote}
 
-          <div style="background:#F5F5F3;padding:16px;margin-bottom:20px;border-left:3px solid #B06A4F;">
+          <div style="background:#F5F5F3;padding:16px;margin:20px 0;border-left:3px solid #B06A4F;">
             <p style="margin:0;font-size:13px;color:#5C5C59;">
               This check doesn't screen every possible source \u2014 categories like franchises, financed
               emissions, and processing of sold products are left out here. A full assessment covers these too.
