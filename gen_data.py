@@ -73,12 +73,14 @@ SECTOR_EXTRA = {
     "Logistics": [11, 12, 19, 38, 42, 44, 45, 56, 57, 61],
     "Construction": [2, 6, 7, 12, 15, 21, 34, 38, 39, 44, 45, 47, 56, 57, 61],
     "Semiconductor": [26, 27, 21, 19, 32, 33, 24, 34, 35, 39, 47, 48, 44, 45, 56, 57],
+    "Hospitality": [1, 3, 7, 19, 20, 24, 32, 34, 35, 44, 45],
 }
 
 SECTOR_OPTIONAL = {
     "Office-based": [61],
     "Logistics": [13, 14, 16],
     "Semiconductor": [6, 28],
+    "Hospitality": [47, 61],
 }
 
 OUT_OF_SCOPE_NOTE = (
@@ -118,7 +120,7 @@ js = "// Auto-generated from OneCarbon_Completeness_Tool_Sector_Spec_v1.md \u201
 js += "const SECTORS = " + json.dumps(sectors, indent=2, ensure_ascii=False) + ";\n"
 js += "const OUT_OF_SCOPE_NOTE = " + json.dumps(OUT_OF_SCOPE_NOTE, ensure_ascii=False) + ";\n"
 
-with open("static/sources.js", "w") as f:
+with open("static/sources.js", "w", encoding="utf-8") as f:
     f.write(js)
 
 for s, items in sectors.items():
